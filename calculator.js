@@ -1,3 +1,11 @@
+const digitButtons = document.querySelectorAll('.digit');
+const operatorButtons = document.querySelectorAll('.operator');
+const clearButton = document.getElementById('clear');
+const deleteButton = document.getElementById('delete');
+const percentButton = document.getElementById('percent');
+const periodButton = document.getElementById('period');
+const equalsButton = document.getElementById('equal');
+
 function add(a, b) {
     return a + b;
 }
