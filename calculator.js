@@ -1,4 +1,7 @@
 currentOp = '';
+currentDigit = '';
+firstDigit = '';
+secondDigit = '';
 
 const digitButtons = document.querySelectorAll('.digit');
 const operatorButtons = document.querySelectorAll('.operator');
@@ -12,15 +15,31 @@ const displayCurrentOp = document.getElementById('displayCurrent');
 
 digitButtons.forEach(button => button.addEventListener('click', () => displayOnScreen(button.textContent)));
 operatorButtons.forEach(button => button.addEventListener('click', () => updateOperation(button.textContent)));
+equalsButton.addEventListener('click', calculatePair);
+clearButton.addEventListener('click', resetScreen);
+
+function resetScreen() {
+    displayCurrentOp.textContent = '';
+    displayLastOp.textContent = '';
+}
 
 function displayOnScreen(digit) {
     displayCurrentOp.textContent += digit;
-    currentDigit = digit;
+    currentDigit = displayCurrentOp.textContent;
 }
 
 function updateOperation(operator) {
     currentOp = operator
-    displayLastOp.textContent = `${currentDigit} ${currentOp}`;
+    firstDigit = currentDigit
+    displayCurrentOp.textContent = '';
+    displayLastOp.textContent = `${firstDigit} ${currentOp}`;
+}
+
+function calculatePair() {
+    if (currentOp === '') return;
+    secondDigit = displayCurrentOp.textContent;
+    displayCurrentOp.textContent = operate(currentOp, firstDigit, secondDigit);
+    displayLastOp.textContent = '';
 }
 
 function operate(operator, a, b) {
