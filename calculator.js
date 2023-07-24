@@ -31,8 +31,8 @@ function displayOnScreen(digit) {
 function updateOperation(operator) {
     currentOp = operator
     firstDigit = currentDigit
-    displayCurrentOp.textContent = '';
     displayLastOp.textContent = `${firstDigit} ${currentOp}`;
+    displayCurrentOp.textContent = '';
 }
 
 function calculatePair() {
