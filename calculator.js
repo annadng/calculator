@@ -1,4 +1,5 @@
 currentOp = '';
+firstOp = '';
 currentDigit = '';
 firstDigit = '';
 secondDigit = '';
@@ -17,6 +18,7 @@ digitButtons.forEach(button => button.addEventListener('click', () => displayOnS
 operatorButtons.forEach(button => button.addEventListener('click', () => updateOperation(button.textContent)));
 equalsButton.addEventListener('click', calculatePair);
 clearButton.addEventListener('click', resetScreen);
+deleteButton.addEventListener('click', deleteChar);
 
 function resetScreen() {
     displayCurrentOp.textContent = '';
@@ -28,18 +30,32 @@ function displayOnScreen(digit) {
     currentDigit = displayCurrentOp.textContent;
 }
 
+function deleteChar() {
+    if (displayCurrentOp.textContent === '') return
+    displayCurrentOp.textContent = displayCurrentOp.textContent.toString().slice(0, -1);
+}
+
 function updateOperation(operator) {
-    currentOp = operator
-    firstDigit = currentDigit
-    displayLastOp.textContent = `${firstDigit} ${currentOp}`;
+    if (displayLastOp.textContent !== '') {
+        currentOp = operator;
+        calculatePair();
+        displayLastOp.textContent = `${firstDigit} ${currentOp}`;
+        displayCurrentOp.textContent = '';
+    } else {
+    firstOp = operator;
+    firstDigit = currentDigit;
+    displayLastOp.textContent = `${firstDigit} ${firstOp}`;
     displayCurrentOp.textContent = '';
+    }
 }
 
 function calculatePair() {
     if (currentOp === '') return;
     secondDigit = displayCurrentOp.textContent;
-    displayCurrentOp.textContent = operate(currentOp, firstDigit, secondDigit);
+    displayCurrentOp.textContent = operate(firstOp, firstDigit, secondDigit);
     displayLastOp.textContent = '';
+    firstDigit = displayCurrentOp.textContent;
+    firstOp = currentOp;
 }
 
 function operate(operator, a, b) {
