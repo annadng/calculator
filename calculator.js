@@ -19,6 +19,7 @@ operatorButtons.forEach(button => button.addEventListener('click', () => updateO
 equalsButton.addEventListener('click', calculatePair);
 clearButton.addEventListener('click', resetScreen);
 deleteButton.addEventListener('click', deleteChar);
+percentButton.addEventListener('click', percentage);
 
 function resetScreen() {
     displayCurrentOp.textContent = '';
@@ -33,6 +34,13 @@ function displayOnScreen(digit) {
 function deleteChar() {
     if (displayCurrentOp.textContent === '') return
     displayCurrentOp.textContent = displayCurrentOp.textContent.toString().slice(0, -1);
+}
+
+function percentage() {
+    if (displayLastOp.textContent === '' && displayCurrentOp.textContent !== '') {
+        displayCurrentOp.textContent = displayCurrentOp.textContent / 100;
+    }
+    return;
 }
 
 function updateOperation(operator) {
@@ -50,7 +58,9 @@ function updateOperation(operator) {
 }
 
 function calculatePair() {
-    if (currentOp === '') return;
+    if (firstOp !== '' && displayCurrentOp.textContent === '') return;
+    console.log(firstOp);
+    console.log(currentOp);
     secondDigit = displayCurrentOp.textContent;
     displayCurrentOp.textContent = operate(firstOp, firstDigit, secondDigit);
     displayLastOp.textContent = '';
