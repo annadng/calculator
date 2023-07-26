@@ -20,6 +20,7 @@ equalsButton.addEventListener('click', calculatePair);
 clearButton.addEventListener('click', resetScreen);
 deleteButton.addEventListener('click', deleteChar);
 percentButton.addEventListener('click', percentage);
+periodButton.addEventListener('click', addPeriod);
 
 function resetScreen() {
     displayCurrentOp.textContent = '';
@@ -38,9 +39,18 @@ function deleteChar() {
 
 function percentage() {
     if (displayLastOp.textContent === '' && displayCurrentOp.textContent !== '') {
-        displayCurrentOp.textContent = displayCurrentOp.textContent / 100;
+        displayCurrentOp.textContent /= 100;
     }
     return;
+}
+
+function addPeriod() {
+    if (displayCurrentOp.textContent.includes('.')) return;
+    if (displayCurrentOp.textContent === '') {
+        displayCurrentOp.textContent += 0 + '.';
+    } else {
+        displayCurrentOp.textContent += '.';
+    }
 }
 
 function updateOperation(operator) {
