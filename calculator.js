@@ -1,6 +1,5 @@
 currentOp = '';
 firstOp = '';
-currentDigit = '';
 firstDigit = '';
 secondDigit = '';
 
@@ -29,7 +28,7 @@ function resetScreen() {
 
 function displayOnScreen(digit) {
     displayCurrentOp.textContent += digit;
-    currentDigit = displayCurrentOp.textContent;
+    displayCurrentOp.textContent;
 }
 
 function deleteChar() {
@@ -61,7 +60,7 @@ function updateOperation(operator) {
         displayCurrentOp.textContent = '';
     } else {
     firstOp = operator;
-    firstDigit = currentDigit;
+    firstDigit = displayCurrentOp.textContent;
     displayLastOp.textContent = `${firstDigit} ${firstOp}`;
     displayCurrentOp.textContent = '';
     }
@@ -83,7 +82,7 @@ function operate(operator, a, b) {
     b = Number(b);
     if (operator == '+') return add(a, b);
     if (operator == '-') return subtract(a, b);
-    if (operator == 'x') return multiply(a, b);
+    if (operator == '×') return multiply(a, b);
     if (operator == '÷') return divide(a, b);
 }
 
