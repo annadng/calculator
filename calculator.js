@@ -68,8 +68,6 @@ function updateOperation(operator) {
 
 function calculatePair() {
     if (firstOp !== '' && displayCurrentOp.textContent === '') return;
-    console.log(firstOp);
-    console.log(currentOp);
     secondDigit = displayCurrentOp.textContent;
     displayCurrentOp.textContent = operate(firstOp, firstDigit, secondDigit);
     displayLastOp.textContent = '';
@@ -83,7 +81,13 @@ function operate(operator, a, b) {
     if (operator == '+') return add(a, b);
     if (operator == '-') return subtract(a, b);
     if (operator == '×') return multiply(a, b);
-    if (operator == '÷') return divide(a, b);
+    if (operator == '÷') {
+        if (b === 0) {
+            return '∞';
+        } else {
+            return divide(a, b);
+        }
+    }
 }
 
 function add(a, b) {
