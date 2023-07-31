@@ -1,7 +1,7 @@
 currentOp = '';
 firstOp = '';
 firstDigit = '';
-secondDigit = '';
+calcResult = 0; // use as condition for resetting screen if new digit is clicked after calculation
 
 const digitButtons = document.querySelectorAll('.digit');
 const operatorButtons = document.querySelectorAll('.operator');
@@ -24,11 +24,16 @@ periodButton.addEventListener('click', addPeriod);
 function resetScreen() {
     displayCurrentOp.textContent = '';
     displayLastOp.textContent = '';
+    calcResult = 0;
 }
 
 function displayOnScreen(digit) {
-    displayCurrentOp.textContent += digit;
-    displayCurrentOp.textContent;
+    if (calcResult === 1) {
+        displayCurrentOp.textContent = digit;
+    } else {
+        displayCurrentOp.textContent += digit;
+        displayCurrentOp.textContent;
+    }
 }
 
 function deleteChar() {
@@ -73,6 +78,7 @@ function calculatePair() {
     displayLastOp.textContent = '';
     firstDigit = displayCurrentOp.textContent;
     firstOp = currentOp;
+    calcResult = 1;
 }
 
 function operate(operator, a, b) {
