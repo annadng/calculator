@@ -30,6 +30,7 @@ function resetScreen() {
 function displayOnScreen(digit) {
     if (calcResult === 1) {
         displayCurrentOp.textContent = digit;
+        calcResult = 0;
     } else {
         displayCurrentOp.textContent += digit;
         displayCurrentOp.textContent;
