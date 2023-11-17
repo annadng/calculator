@@ -1,5 +1,5 @@
-currentOp = '';
-firstOp = '';
+previousOp = ''; // stores operator that was first selected
+currentOp = ''; // stores operator that is then selected as an alternative to equals button
 firstDigit = '';
 calcResult = 0; // use as condition for resetting screen if new digit is clicked after calculation
 
@@ -25,15 +25,17 @@ function resetScreen() {
     displayCurrentOp.textContent = '';
     displayLastOp.textContent = '';
     currentOp = '';
-    firstOp = '';
+    previousOp = '';
     calcResult = 0;
 }
 
 function displayOnScreen(digit) {
     if (calcResult === 1) {
+        // if digit is selected right after a calculation has been executed, replace the previous number instead of appending
         displayCurrentOp.textContent = digit;
         calcResult = 0;
     } else {
+        // append digit
         displayCurrentOp.textContent += digit;
         displayCurrentOp.textContent;
     }
@@ -62,27 +64,33 @@ function addPeriod() {
 
 function updateOperation(operator) {
     if (displayCurrentOp.textContent === '' && displayLastOp.textContent === '') return;
-    if (displayLastOp.textContent !== '') {
+    if (displayLastOp.textContent !== '' && displayCurrentOp.textContent === '') {
+        // if the first digit and operator has been selected but the operator is changed
+        previousOp = operator;
+        displayLastOp.textContent = `${firstDigit} ${previousOp}`;
+    }
+    else if (displayLastOp.textContent !== '' && displayCurrentOp.textContent !== '') {
+        // if an operator is selected as an alternative to the equals button
         currentOp = operator;
         calculatePair();
         displayLastOp.textContent = `${firstDigit} ${currentOp}`;
         displayCurrentOp.textContent = '';
     } else {
-    firstOp = operator;
+    previousOp = operator;
     firstDigit = displayCurrentOp.textContent;
-    displayLastOp.textContent = `${firstDigit} ${firstOp}`;
+    displayLastOp.textContent = `${firstDigit} ${previousOp}`;
     displayCurrentOp.textContent = '';
     }
 }
 
 function calculatePair() {
-    if (firstOp !== '' && displayCurrentOp.textContent === '') return;
-    if (firstOp === '' && displayCurrentOp.textContent !== '') return;
+    if (previousOp !== '' && displayCurrentOp.textContent === '') return;
+    if (previousOp === '' && displayCurrentOp.textContent !== '') return;
     secondDigit = displayCurrentOp.textContent;
-    displayCurrentOp.textContent = operate(firstOp, firstDigit, secondDigit);
+    displayCurrentOp.textContent = operate(previousOp, firstDigit, secondDigit);
     displayLastOp.textContent = '';
     firstDigit = displayCurrentOp.textContent;
-    firstOp = currentOp;
+    previousOp = currentOp;
     calcResult = 1;
 }
 
