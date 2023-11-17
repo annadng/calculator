@@ -24,6 +24,8 @@ periodButton.addEventListener('click', addPeriod);
 function resetScreen() {
     displayCurrentOp.textContent = '';
     displayLastOp.textContent = '';
+    currentOp = '';
+    firstOp = '';
     calcResult = 0;
 }
 
@@ -59,6 +61,7 @@ function addPeriod() {
 }
 
 function updateOperation(operator) {
+    if (displayCurrentOp.textContent === '' && displayLastOp.textContent === '') return;
     if (displayLastOp.textContent !== '') {
         currentOp = operator;
         calculatePair();
@@ -74,6 +77,7 @@ function updateOperation(operator) {
 
 function calculatePair() {
     if (firstOp !== '' && displayCurrentOp.textContent === '') return;
+    if (firstOp === '' && displayCurrentOp.textContent !== '') return;
     secondDigit = displayCurrentOp.textContent;
     displayCurrentOp.textContent = operate(firstOp, firstDigit, secondDigit);
     displayLastOp.textContent = '';
