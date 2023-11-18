@@ -13,13 +13,30 @@ const equalsButton = document.getElementById('equal');
 const displayLastOp = document.getElementById('displayLast');
 const displayCurrentOp = document.getElementById('displayCurrent');
 
-digitButtons.forEach(button => button.addEventListener('click', () => displayOnScreen(button.textContent)));
+digitButtons.forEach(button => button.addEventListener('click', () => displayDigit(button.textContent)));
 operatorButtons.forEach(button => button.addEventListener('click', () => updateOperation(button.textContent)));
 equalsButton.addEventListener('click', calculatePair);
 clearButton.addEventListener('click', resetScreen);
 deleteButton.addEventListener('click', deleteChar);
 percentButton.addEventListener('click', percentage);
 periodButton.addEventListener('click', addPeriod);
+window.addEventListener('keydown', keyboardInput);
+
+function keyboardInput(e) {
+    // play sound and run corresponding function when keyboard input is detected
+    const audio = document.getElementById('play-sound');
+    audio.currentTime = 0;
+    if ((e.key >= 0 && e.key <= 9) || e.key === 'Backspace' || e.key === '%' || e.key === '.' || e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/' || e.key === '=' || e.key === 'Enter' || e.key === 'c') audio.play();
+    if (e.key >= 0 && e.key <= 9) displayDigit(e.key);
+    if (e.key === 'Backspace') deleteChar();
+    if (e.key === '%') percentage();
+    if (e.key === '.') addPeriod();
+    if (e.key === '+' || e.key === '-') updateOperation(e.key);
+    if (e.key === '*') updateOperation('×');
+    if (e.key === '/') updateOperation('÷');
+    if (e.key === '=' || e.key === 'Enter') calculatePair();
+    if (e.key === 'c') resetScreen();
+}
 
 function resetScreen() {
     displayCurrentOp.textContent = '';
@@ -29,7 +46,7 @@ function resetScreen() {
     calcResult = 0;
 }
 
-function displayOnScreen(digit) {
+function displayDigit(digit) {
     if (calcResult === 1) {
         // if digit is selected right after a calculation has been executed, replace the previous number instead of appending
         displayCurrentOp.textContent = digit;
