@@ -10,8 +10,8 @@ const deleteButton = document.getElementById('delete');
 const percentButton = document.getElementById('percent');
 const periodButton = document.getElementById('period');
 const equalsButton = document.getElementById('equal');
-const displayLastOp = document.getElementById('displayLast');
-const displayCurrentOp = document.getElementById('displayCurrent');
+const displayLastOp = document.getElementById('displayLast'); // top half of screen
+const displayCurrentOp = document.getElementById('displayCurrent'); // bottom half of screen
 
 digitButtons.forEach(button => button.addEventListener('click', () => displayDigit(button.textContent)));
 operatorButtons.forEach(button => button.addEventListener('click', () => updateOperation(button.textContent)));
@@ -26,12 +26,11 @@ function handleKeyboardInput(e) {
     // play sound and run corresponding function when keyboard input is detected
     const audio = document.getElementById('play-sound');
     // const pressedKey = document.querySelector(`.calc-btns[data-key=${e.key}]`);
-    // pressedKey.classList.add('inputted');
     audio.currentTime = 0; // rewinds the audio to the start every time it's pressed
     if ((e.key >= 0 && e.key <= 9) || e.key === 'Backspace' || e.key === '%' || e.key === '.' || e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/' || e.key === '=' || e.key === 'Enter' || e.key === 'c') audio.play();
     if ((e.key >= 0 && e.key <= 9) || e.key === 'Backspace' || e.key === '%' || e.key === '.' || e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/' || e.key === '=' ||e.key === 'c') {
         const inputDigit = document.querySelector(`.keyboard[data-key="${e.key}"]`);
-        // change the colour of the button that was pressed
+        // change the colour of the button that was pressed for 1 second
         if (inputDigit) {
             inputDigit.classList.add('inputted');
             setTimeout(function () {
@@ -46,6 +45,7 @@ function handleKeyboardInput(e) {
     if (e.key === '+' || e.key === '-') updateOperation(e.key);
     if (e.key === '*') updateOperation('×');
     if (e.key === '/') updateOperation('÷');
+    if (e.key === 'c') resetScreen();
     if (e.key === '=' || e.key === 'Enter') {
         // equals button requires a different colour change
         calculatePair();
@@ -54,7 +54,6 @@ function handleKeyboardInput(e) {
             equalsButton.classList.remove('inputtedEquals');
         }, 100);
     }
-    if (e.key === 'c') resetScreen();
 }
 
 function resetScreen() {
@@ -112,6 +111,7 @@ function updateOperation(operator) {
         displayLastOp.textContent = `${firstDigit} ${currentOp}`;
         displayCurrentOp.textContent = '';
     } else {
+    // completely new operation is being inputted
     previousOp = operator;
     firstDigit = displayCurrentOp.textContent;
     displayLastOp.textContent = `${firstDigit} ${previousOp}`;
@@ -120,7 +120,9 @@ function updateOperation(operator) {
 }
 
 function calculatePair() {
+    // don't do anything if operator has been selected but a second integer has not
     if (previousOp !== '' && displayCurrentOp.textContent === '') return;
+    // don't do anything if only the first integer has been selected
     if (previousOp === '' && displayCurrentOp.textContent !== '') return;
     secondDigit = displayCurrentOp.textContent;
     displayCurrentOp.textContent = operate(previousOp, firstDigit, secondDigit);
