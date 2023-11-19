@@ -83,3 +83,13 @@ body {
 #equal:hover {
     background-color: #bdc19c;
 }
+
+.inputted {
+    background-color: #a4b1be;
+    color: #f3f3ef;
+}
+
+.inputtedEquals {
+    background-color: #bdc19c;
+    color: #f3f3ef;
+}
