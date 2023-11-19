@@ -20,13 +20,25 @@ clearButton.addEventListener('click', resetScreen);
 deleteButton.addEventListener('click', deleteChar);
 percentButton.addEventListener('click', percentage);
 periodButton.addEventListener('click', addPeriod);
-window.addEventListener('keydown', keyboardInput);
+window.addEventListener('keydown', handleKeyboardInput);
 
-function keyboardInput(e) {
+function handleKeyboardInput(e) {
     // play sound and run corresponding function when keyboard input is detected
     const audio = document.getElementById('play-sound');
-    audio.currentTime = 0;
+    // const pressedKey = document.querySelector(`.calc-btns[data-key=${e.key}]`);
+    // pressedKey.classList.add('inputted');
+    audio.currentTime = 0; // rewinds the audio to the start every time it's pressed
     if ((e.key >= 0 && e.key <= 9) || e.key === 'Backspace' || e.key === '%' || e.key === '.' || e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/' || e.key === '=' || e.key === 'Enter' || e.key === 'c') audio.play();
+    if ((e.key >= 0 && e.key <= 9) || e.key === 'Backspace' || e.key === '%' || e.key === '.' || e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/' || e.key === '=' ||e.key === 'c') {
+        const inputDigit = document.querySelector(`.keyboard[data-key="${e.key}"]`);
+        // change the colour of the button that was pressed
+        if (inputDigit) {
+            inputDigit.classList.add('inputted');
+            setTimeout(function () {
+                inputDigit.classList.remove('inputted');
+            }, 100);
+        }
+    }
     if (e.key >= 0 && e.key <= 9) displayDigit(e.key);
     if (e.key === 'Backspace') deleteChar();
     if (e.key === '%') percentage();
@@ -34,7 +46,14 @@ function keyboardInput(e) {
     if (e.key === '+' || e.key === '-') updateOperation(e.key);
     if (e.key === '*') updateOperation('×');
     if (e.key === '/') updateOperation('÷');
-    if (e.key === '=' || e.key === 'Enter') calculatePair();
+    if (e.key === '=' || e.key === 'Enter') {
+        // equals button requires a different colour change
+        calculatePair();
+        equalsButton.classList.add('inputtedEquals');
+        setTimeout(function () {
+            equalsButton.classList.remove('inputtedEquals');
+        }, 100);
+    }
     if (e.key === 'c') resetScreen();
 }
 
